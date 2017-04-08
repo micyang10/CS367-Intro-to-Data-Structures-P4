@@ -28,14 +28,19 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
 
     @Override
     public boolean overlaps(IntervalADT<T> other) {
-        return start.compareTo(other.getEnd()) <= 0 
-            && end.compareTo(other.getStart()) >= 0;
+        if (start.compareTo(other.getEnd()) <= 0 
+           && end.compareTo(other.getStart()) >= 0) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean contains(T point) {
-        return start.compareTo(point) <= 0 
-            && point.compareTo(end) <= 0;
+        if (start.compareTo(point) <= 0 && point.compareTo(end) <= 0) {
+            return true;
+        }
+        return false;
     }
 
     @Override
