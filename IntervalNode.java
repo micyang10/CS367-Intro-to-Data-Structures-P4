@@ -31,7 +31,8 @@ public class IntervalNode<T extends Comparable<T>> {
 	 *            the interval data member.
 	 */
 	public IntervalNode(IntervalADT<T> interval) {
-		// TODO
+		this.interval = interval;
+		maxEnd = interval.getEnd();
 	}
 
 	/**
