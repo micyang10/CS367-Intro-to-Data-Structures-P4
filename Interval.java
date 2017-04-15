@@ -46,22 +46,22 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
     @Override
     public int compareTo(IntervalADT<T> other) {
         // first compares start values
-		if (start.compareTo(other.getStart()) < 0) {
-			return -1;
-		} else if (start.compareTo(other.getStart()) > 0) {
-			return 1;
-		}
-		
-		// if start values equal, then compares end values
-		else if (end.compareTo(other.getEnd()) < 0) {
-			return -1;
-		} else if (end.compareTo(other.getEnd()) > 0) {
-			return 1;
-		}
-		
-		// if both start and end values equal
-		else {
-			return 0;
-		}
+	if (start.compareTo(other.getStart()) < 0) {
+		return -1;
+	} else if (start.compareTo(other.getStart()) > 0) {
+		return 1;
+	}
+	
+	// if start values equal, then compares end values
+	else if (end.compareTo(other.getEnd()) < 0) {
+		return -1;
+	} else if (end.compareTo(other.getEnd()) > 0) {
+		return 1;
+	}
+	
+	// if both start and end values equal
+	else {
+		return 0;
+	}
     }
 }
