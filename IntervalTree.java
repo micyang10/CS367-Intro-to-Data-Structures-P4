@@ -1,10 +1,9 @@
 import java.util.List;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T> {
 	
 	private IntervalNode<T> root;
-	private List<IntervalADT<T>> list;
 	
 	public IntervalTree() {
 		this.root = null;
@@ -23,45 +22,36 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	@Override
 	public void insert(IntervalADT<T> interval)
 					throws IllegalArgumentException {
-		if (interval == null) {
-			throw new IllegalArgumentException();
-		}
 		root = insertHelper(root, interval);
 	}
 	
 	private IntervalNode<T> insertHelper(IntervalNode<T> node, 
-					     IntervalADT<T> interval) {
+					     IntervalADT<T> interval) throws IllegalArgumentException {
 		if (node == null) {
 			return new IntervalNode<T>(interval);
 		}
-		if (interval.compareTo(node.getInterval()) == 0) {
+		if (interval.compareTo(node.getInterval()) == 0 || interval == null) {
 			throw new IllegalArgumentException();
 		}
 		if (interval.compareTo(node.getInterval()) < 0) {
-			IntervalNode<T> nodeNew = 
-				insertHelper(node.getRightNode(), interval);
-			node.setRightNode(nodeNew);
-			if (nodeNew.getMaxEnd().compareTo((root.getMaxEnd())) > 0) {
-				root.setMaxEnd(nodeNew.getMaxEnd());
+			node.setLeftNode(insertHelper(node.getLeftNode(), interval));
+			if (node.getLeftNode().getMaxEnd().compareTo(node.getMaxEnd()) > 0) {
+				node.setMaxEnd(node.getLeftNode().getMaxEnd());
 			}
+			return node;
 		}
-		else if (interval.compareTo(node.getInterval()) > 0) {
-			IntervalNode<T> nodeNew = 
-				insertHelper(node.getLeftNode(), interval);
-			node.setLeftNode(nodeNew);
-			if (nodeNew.getMaxEnd().compareTo((root.getMaxEnd())) > 0) {
-				root.setMaxEnd(nodeNew.getMaxEnd());
+		else {
+			node.setRightNode(insertHelper(node.getRightNode(), interval));
+			if (node.getRightNode().getMaxEnd().compareTo(node.getMaxEnd()) > 0) {
+				node.setMaxEnd(node.getRightNode().getMaxEnd());
 			}
+			return node;
 		}
-		return node;
 	}
 
 	@Override
 	public void delete(IntervalADT<T> interval)
 					throws IntervalNotFoundException, IllegalArgumentException {
-		if (interval == null) {
-			throw new IllegalArgumentException();
-		}
 		root = deleteHelper(root, interval);
 	}
 
@@ -75,70 +65,65 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (node == null) {
 			throw new IntervalNotFoundException(interval.toString());
 		}
-		if (node.getLeftNode().getInterval().compareTo(interval) == 0) {
-			if (node.getLeftNode() == null && node.getRightNode() == null) {
-				return null;
+		if (node.getInterval().compareTo(interval) == 0) {
+			if (node.getRightNode() != null) {
+				IntervalADT<T> successorVal = node.getSuccessor().getInterval();
+				node.setInterval(successorVal);
+				deleteHelper(node.getRightNode(), successorVal);
+				node.setMaxEnd(updateMaxEnd(node));
+				return node;
 			}
-			else if (node.getLeftNode() != null && node.getRightNode() == null) {
+			else {
 				return node.getLeftNode();
 			}
-			else if (node.getLeftNode() == null && node.getRightNode() != null) {
-				return node.getRightNode();
-			}
-			else {
-				node.setInterval(node.getSuccessor().getInterval());
-				deleteHelper(node.getRightNode(), node.getInterval());
-			}
 		}
-		else if (node.getInterval().compareTo(interval) > 0) {
-			node.setLeftNode(deleteHelper(node.getLeftNode(), interval));
-		}
-		else if (node.getInterval().compareTo(interval) < 0) {
+		if (node.getInterval().compareTo(interval) < 0) {
 			node.setRightNode(deleteHelper(node.getRightNode(), interval));
+			node.setMaxEnd(updateMaxEnd(node));
+			return node;
 		}
-		if (node.getMaxEnd().compareTo(interval.getEnd()) == 0) {
-			T end = node.getInterval().getEnd();
-			if (node.getLeftNode() == null && node.getRightNode() == null) {
-				node.setMaxEnd(end);
-			}
-			else if (node.getLeftNode() != null && node.getRightNode() == null) {
-				if (node.getLeftNode().getMaxEnd().compareTo(end) > 0) {
-					node.setMaxEnd(node.getLeftNode().getMaxEnd());
-				}
-				else {
-					node.setMaxEnd(end);
-				}
-			}
-			else if (node.getLeftNode() == null && node.getRightNode() != null) {
-				if (node.getRightNode().getMaxEnd().compareTo(end) > 0) {
-					node.setMaxEnd(node.getRightNode().getMaxEnd());
-				}
-				else {
-					node.setMaxEnd(end);
-				}
+		else {
+			node.setLeftNode(deleteHelper(node.getLeftNode(), interval));
+			node.setMaxEnd(updateMaxEnd(node));
+			return node;
+		}
+	}
+		
+	private T updateMaxEnd(IntervalNode<T> nodeRecalc) {
+		T endNode = nodeRecalc.getInterval().getEnd();
+		nodeRecalc.setMaxEnd(endNode);
+		if (nodeRecalc.getLeftNode() == null && nodeRecalc.getRightNode() == null) {
+			return nodeRecalc.getMaxEnd();
+		}
+		if (nodeRecalc.getLeftNode() == null) {
+			if (nodeRecalc.getMaxEnd().
+					compareTo(nodeRecalc.getRightNode().getMaxEnd()) < 0) {
+					return nodeRecalc.getRightNode().getMaxEnd();
 			}
 			else {
-				if (node.getLeftNode().getMaxEnd().compareTo(end) > 0) {
-					if (node.getLeftNode().getMaxEnd().compareTo
-					    (node.getRightNode().getMaxEnd()) > 0) {
-						node.setMaxEnd(node.getLeftNode().getMaxEnd());
-					}
-					else {
-						node.setMaxEnd(node.getRightNode().getMaxEnd());
-					}
-				}
-				else {
-					if (node.getRightNode().getMaxEnd().compareTo(end) > 0) {
-						node.setMaxEnd(node.getRightNode().getMaxEnd());
-					}
-					else {
-						node.setMaxEnd(end);
-					}
-				}
+				return nodeRecalc.getMaxEnd();
 			}
 		}
-		return node;
-	}
+		if (nodeRecalc.getRightNode() == null) {
+			if (nodeRecalc.getMaxEnd().
+					compareTo(nodeRecalc.getLeftNode().getMaxEnd()) < 0) {
+					return nodeRecalc.getLeftNode().getMaxEnd();
+			}
+			else {
+				return nodeRecalc.getMaxEnd();
+			}
+		}
+		T maxEndVal = nodeRecalc.getLeftNode().getMaxEnd();
+		
+		if (maxEndVal.compareTo
+					    (nodeRecalc.getRightNode().getMaxEnd()) < 0) {
+			maxEndVal = nodeRecalc.getRightNode().getMaxEnd();
+		}
+		if (maxEndVal.compareTo(nodeRecalc.getMaxEnd()) < 0) {
+			maxEndVal = nodeRecalc.getMaxEnd();
+		}
+		return maxEndVal;
+}
 
 	@Override
 	public List<IntervalADT<T>> findOverlapping(
@@ -146,24 +131,26 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (interval == null) {
 			throw new IllegalArgumentException();
 		}
-		list = new LinkedList<IntervalADT<T>>();
+		List<IntervalADT<T>> list = new ArrayList<IntervalADT<T>>();
 		findOverlappingHelper(root, interval, list);
 		return list;
 	}
 
 	private void findOverlappingHelper(IntervalNode<T> node, IntervalADT<T> interval, 
-					   List<IntervalADT<T>> result) {
+					   List<IntervalADT<T>> list) {
 		if (node == null) {
 			return;
 		}
 		if (node.getInterval().overlaps(interval)) {
-			list.add(root.getInterval());
+			list.add(node.getInterval());
 		}
-		if (node.getLeftNode().getMaxEnd().compareTo(interval.getStart()) >= 0) {
-			findOverlappingHelper(node.getLeftNode(), interval, result);
+		if (node.getLeftNode().getMaxEnd().compareTo(interval.getStart()) >= 0
+				&& node.getLeftNode() != null) {
+			findOverlappingHelper(node.getLeftNode(), interval, list);
 		}
-		if (node.getRightNode().getMaxEnd().compareTo(interval.getStart()) >= 0) {
-			findOverlappingHelper(node.getRightNode(), interval, result);
+		if (node.getRightNode().getMaxEnd().compareTo(interval.getStart()) >= 0
+				&& node.getRightNode() != null) {
+			findOverlappingHelper(node.getRightNode(), interval, list);
 		}
 	}
 
@@ -172,23 +159,28 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (point == null) {
 			throw new IllegalArgumentException();
 		}
-		list = new LinkedList<IntervalADT<T>>();
+		List<IntervalADT<T>> list = new ArrayList<IntervalADT<T>>();
 		searchPointHelper(root, point, list);
 		return list;
 	}
 
 	private void searchPointHelper(IntervalNode<T> node, 
-				       T point, List<IntervalADT<T>> result) {
+				       T point, List<IntervalADT<T>> list) {
 		if (node == null) {
 			return;
 		}
 		else {
 			searchPointHelper(node.getLeftNode(), point, list);
-			if (point.compareTo(node.getInterval().getStart()) >= 0) {
-				searchPointHelper(node.getRightNode(), point, list);
-			}
 			if (node.getInterval().contains(point)) {
-				list.add(root.getInterval());
+				list.add(node.getInterval());
+			}
+			if (node.getLeftNode().getMaxEnd().compareTo(point) > 0
+					&& node.getLeftNode() != null) {
+				searchPointHelper(node.getLeftNode(), point, list);
+			}
+			if (node.getRightNode().getMaxEnd().compareTo(point) > 0
+					&& node.getRightNode() != null) {
+				searchPointHelper(node.getRightNode(), point, list);
 			}
 		}
 	}
@@ -217,8 +209,14 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (node == null) {
 	        	return 0;
 		}
-		return Math.max(getHeightHelper(node.getLeftNode()), 
-				getHeightHelper(node.getRightNode()));
+		int leftNodeHeight = getHeightHelper(node.getLeftNode());
+		int rightNodeHeight = getHeightHelper(node.getRightNode());
+		if (leftNodeHeight > rightNodeHeight) {
+			return 1 + leftNodeHeight;
+		}
+		else {
+			return 1 + rightNodeHeight;
+		}
 	}
 
 	@Override
@@ -229,13 +227,19 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		return containsHelper(interval, root);
 	}
 
-	private boolean containsHelper(IntervalADT<T> currInterval, IntervalNode<T> node) {
+	private boolean containsHelper(IntervalADT<T> interval, IntervalNode<T> node) {
 		if (root == null) {
 			return false;
 		}
-		return containsHelper(currInterval, node.getLeftNode()) || 
-				      containsHelper(currInterval, node.getLeftNode()) 
-						     || node.getInterval().compareTo(currInterval) == 0;
+		if (node.getInterval().compareTo(interval) == 0) {
+			return true;
+		}
+		if (node.getInterval().compareTo(interval) > 0) {
+			return containsHelper(interval, node.getLeftNode());
+		}
+		else {
+			return containsHelper(interval, node.getLeftNode());
+		}
 	}
 
 	@Override
