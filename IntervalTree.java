@@ -144,12 +144,12 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (node.getInterval().overlaps(interval)) {
 			list.add(node.getInterval());
 		}
-		if (node.getLeftNode().getMaxEnd().compareTo(interval.getStart()) >= 0
-				&& node.getLeftNode() != null) {
+		if (node.getLeftNode() != null && 
+		    node.getLeftNode().getMaxEnd().compareTo(interval.getStart()) >= 0) {
 			findOverlappingHelper(node.getLeftNode(), interval, list);
 		}
-		if (node.getRightNode().getMaxEnd().compareTo(interval.getStart()) >= 0
-				&& node.getRightNode() != null) {
+		if (node.getRightNode() != null && 
+		    node.getRightNode().getMaxEnd().compareTo(interval.getStart()) >= 0) {
 			findOverlappingHelper(node.getRightNode(), interval, list);
 		}
 	}
