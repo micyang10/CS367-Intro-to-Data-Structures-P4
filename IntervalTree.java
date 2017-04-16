@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.LinkedList;
+import java.lang.Math;
 
 public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T> {
 	
@@ -32,7 +33,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	private IntervalNode<T> insertHelper(IntervalNode<T> node, 
 					     IntervalADT<T> interval) {
 		if (node == null) {
-			return new IntervalNode<T> interval;
+			return new IntervalNode<T>(interval);
 		}
 		if (interval.compareTo(node.getInterval()) == 0) {
 			throw new IllegalArgumentException();
@@ -53,6 +54,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 				root.setMaxEnd(nodeNew.getMaxEnd());
 			}
 		}
+		return node;
 	}
 
 	@Override
@@ -74,7 +76,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (node == null) {
 			throw new IntervalNotFoundException(interval.toString());
 		}
-		if (node.getLeftNode().compareTo(interval) == 0) {
+		if (node.getLeftNode().getInterval().compareTo(interval) == 0) {
 			if (node.getLeftNode() == null && node.getRightNode() == null) {
 				return null;
 			}
@@ -136,6 +138,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 				}
 			}
 		}
+		return node;
 	}
 
 	@Override
@@ -175,7 +178,8 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		return list;
 	}
 
-	private void searchPointHelper(IntervalNode<T> node, T point, List<IntervalADT<T>> result) {
+	private void searchPointHelper(IntervalNode<T> node, 
+				       T point, List<IntervalADT<T>> result) {
 		if (node == null) {
 			return;
 		}
@@ -200,7 +204,8 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			return 0;
 		}
 		else {
-			return (getSizeHelper(node.getLeftNode()) + 1 + getSizeHelper(node.getRightNode()));
+			return (getSizeHelper(node.getLeftNode()) 
+				+ 1 + getSizeHelper(node.getRightNode()));
 		}
 	}
 
@@ -213,7 +218,8 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (node == null) {
 	        	return 0;
 		}
-		return Math.max(node.getLeftNode()), getHeightHelper(node.getRightNode()) + 1;
+		return Math.max(getHeightHelper(node.getLeftNode()), 
+				getHeightHelper(node.getRightNode()));
 	}
 
 	@Override
