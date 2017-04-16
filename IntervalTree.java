@@ -194,38 +194,25 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		 return getSize(root);
 	}
 	
-	private int getSize(IntervalNode<T> node) {
+	private int getSizeHelper(IntervalNode<T> node) {
 		if (node == null) {
 			return 0;
 		}
 		else {
-			return (getSize(node.getLeftNode()) + 1 + getSize(node.getRightNode()));
+			return (getSizeHelper(node.getLeftNode()) + 1 + getSizeHelper(node.getRightNode()));
 		}
 	}
 
 	@Override
 	public int getHeight() {
-	    if (this.root == null){
-	        return 0;
-	    }
-	    else{
-	        return getHeightHelper(this.root);
-	    }
+		return getHeightHelper(root);
 	}
 	
 	private int getHeightHelper(IntervalNode<T> node) {
-	    if (node == null) {
-	        return -1;
-	    }
-
-	    int left = getHeightHelper(node.getLeftNode());
-	    int right = getHeightHelper(node.getRightNode());
-
-	    if (left > right) {
-	        return left + 1;
-	    } else {
-	        return right + 1;
-	    }
+		if (node == null) {
+	        	return 0;
+		}
+		return Math.max(node.getLeftNode()), getHeightHelper(node.getRightNode()) + 1;
 	}
 
 	@Override
