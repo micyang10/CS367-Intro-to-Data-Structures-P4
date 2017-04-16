@@ -5,7 +5,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	IntervalNode<T> root;
 	
 	public IntervalTree() {
-		root = null;
+		this.root = null;
 	}
 	
 	public IntervalTree(IntervalNode<T> root) {
