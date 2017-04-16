@@ -1,6 +1,5 @@
 import java.util.List;
 import java.util.LinkedList;
-import java.lang.Math;
 
 public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T> {
 	
