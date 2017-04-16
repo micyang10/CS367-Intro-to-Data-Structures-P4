@@ -52,7 +52,16 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
+		 return getSize(root);
+	}
+	
+	private int getSize(IntervalNode<T> node) {
+		if (node == null) {
+			return 0;
+		}
+		else {
+			return(getSize(node.getLeftNode()) + 1 + getSize(node.getRightNode()));
+		}
 	}
 
 	@Override
