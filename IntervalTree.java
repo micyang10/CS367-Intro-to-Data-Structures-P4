@@ -174,12 +174,12 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			if (node.getInterval().contains(point)) {
 				list.add(node.getInterval());
 			}
-			if (node.getLeftNode().getMaxEnd().compareTo(point) > 0
-					&& node.getLeftNode() != null) {
+			if (node.getLeftNode() != null && 
+			    node.getLeftNode().getMaxEnd().compareTo(point) > 0) {
 				searchPointHelper(node.getLeftNode(), point, list);
 			}
-			if (node.getRightNode().getMaxEnd().compareTo(point) > 0
-					&& node.getRightNode() != null) {
+			if (node.getRightNode() != null && 
+			    node.getRightNode().getMaxEnd().compareTo(point) > 0) {
 				searchPointHelper(node.getRightNode(), point, list);
 			}
 		}
