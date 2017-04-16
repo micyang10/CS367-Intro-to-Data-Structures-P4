@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.LinkedList;
 
 public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T> {
 	
@@ -33,14 +34,14 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (node == null) {
 			return new IntervalNode<T> interval;
 		}
-		if (interval.compareTo(node.getInterval()) == 0)
+		if (interval.compareTo(node.getInterval()) == 0) {
 			throw new IllegalArgumentException();
 		}
 		if (interval.compareTo(node.getInterval()) < 0) {
 			IntervalNode<T> nodeNew = 
 				insertHelper(node.getRightNode(), interval);
 			node.setRightNode(nodeNew);
-			if (nodeNew.getMaxEnd().compareTo.(root.getMaxEnd()) > 0) {
+			if (nodeNew.getMaxEnd().compareTo((root.getMaxEnd())) > 0) {
 				root.setMaxEnd(nodeNew.getMaxEnd());
 			}
 		}
@@ -48,7 +49,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			IntervalNode<T> nodeNew = 
 				insertHelper(node.getLeftNode(), interval);
 			node.setLeftNode(nodeNew);
-			if (nodeNew.getMaxEnd().compareTo.(root.getMaxEnd()) > 0) {
+			if (nodeNew.getMaxEnd().compareTo((root.getMaxEnd())) > 0) {
 				root.setMaxEnd(nodeNew.getMaxEnd());
 			}
 		}
@@ -141,7 +142,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	public List<IntervalADT<T>> findOverlapping(
 					IntervalADT<T> interval) {
 		if (interval == null) {
-			throw newe IllegalArgumentException();
+			throw new IllegalArgumentException();
 		}
 		list = new LinkedList<IntervalADT<T>>();
 		findOverlappingHelper(root, interval, list);
@@ -151,7 +152,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	private void findOverlappingHelper(IntervalNode<T> node, IntervalADT<T> interval, 
 					   List<IntervalADT<T>> result) {
 		if (node == null) {
-			return
+			return;
 		}
 		if (node.getInterval().overlaps(interval)) {
 			list.add(root.getInterval());
@@ -167,10 +168,10 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	@Override
 	public List<IntervalADT<T>> searchPoint(T point) {
 		if (point == null) {
-			throw newe IllegalArgumentException();
+			throw new IllegalArgumentException();
 		}
 		list = new LinkedList<IntervalADT<T>>();
-		searchPointHelper(root, interval, list);
+		searchPointHelper(root, point, list);
 		return list;
 	}
 
@@ -191,7 +192,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 	@Override
 	public int getSize() {
-		 return getSize(root);
+		 return getSizeHelper(root);
 	}
 	
 	private int getSizeHelper(IntervalNode<T> node) {
@@ -227,8 +228,8 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (root == null) {
 			return false;
 		}
-		return containsHelper(currInterval, node.getLeftNode() || 
-				      containsHelper(currInterval, node.getLeftNode() 
+		return containsHelper(currInterval, node.getLeftNode()) || 
+				      containsHelper(currInterval, node.getLeftNode()) 
 						     || node.getInterval().compareTo(currInterval) == 0;
 	}
 
