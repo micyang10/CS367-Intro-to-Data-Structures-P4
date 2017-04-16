@@ -95,8 +95,10 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 	@Override
 	public void printStats() {
-		// TODO Auto-generated method stub
-
+		System.out.println("-----------------------------------------");
+		System.out.println("Height: " + getHeight());
+		System.out.println("Size: " + getSize());
+		System.out.println("-----------------------------------------");
 	}
 
 }
