@@ -217,7 +217,19 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 	@Override
 	public boolean contains(IntervalADT<T> interval) {
-		// TODO Auto-generated method stub
+		if (interval == null) {
+			throw new IllegalArgumentException();
+		}
+		return containsHelper(interval, root);
+	}
+
+	private boolean containsHelper(IntervalADT<T> currInterval, IntervalNode<T> node) {
+		if (root == null) {
+			return false;
+		}
+		return containsHelper(currInterval, node.getLeftNode() || 
+				      containsHelper(currInterval, node.getLeftNode() 
+						     || node.getInterval().compareTo(currInterval) == 0;
 	}
 
 	@Override
