@@ -2,7 +2,16 @@ import java.util.List;
 
 public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T> {
 	
-	// TODO declare any data members needed for this class
+	IntervalNode<T> root;
+	
+	public IntervalTree() {
+		root = null;
+	}
+	
+	public IntervalTree(IntervalNode<T> root) {
+		this.root = root;
+	}
+	
 
 	@Override
 	public IntervalNode<T> getRoot() {
