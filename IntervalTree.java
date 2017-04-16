@@ -2,7 +2,8 @@ import java.util.List;
 
 public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T> {
 	
-	IntervalNode<T> root;
+	private IntervalNode<T> root;
+	private List<IntervalADT<T>> list;
 	
 	public IntervalTree() {
 		this.root = null;
@@ -139,12 +140,53 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	@Override
 	public List<IntervalADT<T>> findOverlapping(
 					IntervalADT<T> interval) {
-		// TODO Auto-generated method stub
+		if (interval == null) {
+			throw newe IllegalArgumentException();
+		}
+		list = new LinkedList<IntervalADT<T>>();
+		findOverlappingHelper(root, interval, list);
+		return list;
+	}
+
+	private void findOverlappingHelper(IntervalNode<T> node, IntervalADT<T> interval, 
+					   List<IntervalADT<T>> result) {
+		if (node == null) {
+			return
+		}
+		if (node.getInterval().overlaps(interval)) {
+			list.add(root.getInterval());
+		}
+		if (node.getLeftNode().getMaxEnd().compareTo(interval.getStart()) >= 0) {
+			findOverlappingHelper(node.getLeftNode(), interval, result);
+		}
+		if (node.getRightNode().getMaxEnd().compareTo(interval.getStart()) >= 0) {
+			findOverlappingHelper(node.getRightNode(), interval, result);
+		}
 	}
 
 	@Override
 	public List<IntervalADT<T>> searchPoint(T point) {
-		// TODO Auto-generated method stub
+		if (point == null) {
+			throw newe IllegalArgumentException();
+		}
+		list = new LinkedList<IntervalADT<T>>();
+		searchPointHelper(root, interval, list);
+		return list;
+	}
+
+	private void searchPointHelper(IntervalNode<T> node, T point, List<IntervalADT<T>> result) {
+		if (node == null) {
+			return;
+		}
+		else {
+			searchPointHelper(node.getLeftNode(), point, list);
+			if (point.compareTo(node.getInterval().getStart()) >= 0) {
+				searchPointHelper(node.getRightNode(), point, list);
+			}
+			if (node.getInterval().contains(point)) {
+				list.add(root.getInterval());
+			}
+		}
 	}
 
 	@Override
@@ -163,21 +205,21 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 	@Override
 	public int getHeight() {
-	    if(this.root == null){
+	    if (this.root == null){
 	        return 0;
 	    }
 	    else{
-	        return getHeight(this.root);
+	        return getHeightHelper(this.root);
 	    }
 	}
 	
-	private int getHeight(IntervalNode<T> node) {
+	private int getHeightHelper(IntervalNode<T> node) {
 	    if (node == null) {
 	        return -1;
 	    }
 
-	    int left = getHeight(node.getLeftNode());
-	    int right = getHeight(node.getRightNode());
+	    int left = getHeightHelper(node.getLeftNode());
+	    int right = getHeightHelper(node.getRightNode());
 
 	    if (left > right) {
 	        return left + 1;
