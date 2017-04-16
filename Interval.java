@@ -28,7 +28,7 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
 
     @Override
     public boolean overlaps(IntervalADT<T> other) {
-        if (this.getStart.compareTo(other.getEnd()) <= 0 
+        if (this.getStart().compareTo(other.getEnd()) <= 0 
            && this.getEnd().compareTo(other.getStart()) >= 0) {
             return true;
         }
@@ -46,22 +46,25 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
     @Override
     public int compareTo(IntervalADT<T> other) {
         // first compares start values
-	if (this.getStart().compareTo(other.getStart()) < 0) {
-		return -1;
-	} else if (this.getStart().compareTo(other.getStart()) > 0) {
-		return 1;
-	}
-	
-	// if start values equal, then compares end values
-	else if (this.getEnd().compareTo(other.getEnd()) < 0) {
-		return -1;
-	} else if (this.getEnd().compareTo(other.getEnd()) > 0) {
-		return 1;
-	}
-	
-	// if both start and end values equal
-	else {
-		return 0;
-	}
+    	if (this.getStart().compareTo(other.getStart()) < 0) {
+    		return -1;
+    	} 
+		else if (this.getStart().compareTo(other.getStart()) > 0) {
+			return 1;
+		}
+		
+		// if start values equal, then compares end values
+		else if (this.getEnd().compareTo(other.getEnd()) < 0) {
+			return -1;
+		} 
+		else if (this.getEnd().compareTo(other.getEnd()) > 0) {
+			return 1;
+		}
+		
+		// if both start and end values equal
+		else {
+			return 0;
+		}
     }
+    
 }
