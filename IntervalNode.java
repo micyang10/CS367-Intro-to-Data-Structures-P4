@@ -42,7 +42,13 @@ public class IntervalNode<T extends Comparable<T>> {
 	 * @return in-order successor node
 	 */
 	public IntervalNode<T> getSuccessor() {
-		// TODO
+	    if(this.rightNode == null)
+	        return null;
+	    
+	    IntervalNode<T> c = this.rightNode;
+	    while(c.leftNode != null)
+	        c = c.leftNode;
+	    return c;
 	}
 
 	/**
