@@ -57,7 +57,6 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 	@Override
 	public int getHeight() {
-		// TODO Auto-generated method stub
 	    if(this.root == null){
 	        return 0;
 	    }
