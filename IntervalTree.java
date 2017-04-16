@@ -15,8 +15,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 	@Override
 	public IntervalNode<T> getRoot() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.root;
 	}
 
 	@Override
@@ -59,6 +58,26 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	@Override
 	public int getHeight() {
 		// TODO Auto-generated method stub
+	    if(this.root == null){
+	        return 0;
+	    }
+	    else{
+	        return getHeight(this.root);
+	    }
+	}
+	private int getHeight(IntervalNode<T> node) {
+	    if (node == null) {
+	        return -1;
+	    }
+
+	    int left = getHeight(node.getLeftNode());
+	    int right = getHeight(node.getRightNode());
+
+	    if (left > right) {
+	        return left + 1;
+	    } else {
+	        return right + 1;
+	    }
 	}
 
 	@Override
