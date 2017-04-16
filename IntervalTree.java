@@ -60,7 +60,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			return 0;
 		}
 		else {
-			return(getSize(node.getLeftNode()) + 1 + getSize(node.getRightNode()));
+			return (getSize(node.getLeftNode()) + 1 + getSize(node.getRightNode()));
 		}
 	}
 
@@ -73,6 +73,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	        return getHeight(this.root);
 	    }
 	}
+	
 	private int getHeight(IntervalNode<T> node) {
 	    if (node == null) {
 	        return -1;
