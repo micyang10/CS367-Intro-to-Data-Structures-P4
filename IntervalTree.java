@@ -1,30 +1,85 @@
+/////////////////////////////////////////////////////////////////////////////
+// Semester:         CS367 Spring 2017 
+// PROJECT:          Program 4
+// FILE:             IntervalTree.java
+//
+// TEAM:    Team 35 Java Badgers - P4
+// Authors: Michael Yang, Kendra Raczek
+// Author1: Michael Yang, yang363@wisc.edu, yang363, LEC 001
+// Author2: Kendra Raczek, raczek@wisc.edu, raczek, LEC 001
+//
+//////////////////////////// 80 columns wide //////////////////////////////////
+
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * An implementation of the IntervalTreeADT interface. This implementation 
+ * defines the structure of an IntervalTree type. It supports modifying and 
+ * inserting intervals as data items into nodes of this tree. 
+ * See IntervalTreeADT.java for a description of each method. 
+ * 
+ * @param <T> A Comparable type that can be used to indicate the start 
+ * and end times of an interval.
+ *
+ * <p>Bugs: None that we are aware of
+ *
+ * @author Michael Yang, Kendra Raczek
+ *
+ */
 public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T> {
-	
+	//root node
 	private IntervalNode<T> root;
 	
+	/**
+	* Constructs a new interval tree instance. It resets the root.
+	*/
 	public IntervalTree() {
 		this.root = null;
 	}
 	
+	/**
+	* Constructs a new interval tree instance. It initializes the root.
+	* @param root: root of the tree
+	*/
 	public IntervalTree(IntervalNode<T> root) {
 		this.root = root;
 	}
 	
-
+	/**
+	* Accesses root of an IntervalTree object
+	* 
+	* @return start date
+	*/
 	@Override
 	public IntervalNode<T> getRoot() {
 		return this.root;
 	}
-
+	
+        /**
+	* Inserts an Interval into the tree.
+	* 
+	* @param interval the interval (item) to insert in the tree.
+	* @throws IllegalArgumentException if interval is null or is found 
+	* to be a duplicate of an existing interval in this tree.            
+	*/
 	@Override
 	public void insert(IntervalADT<T> interval)
 					throws IllegalArgumentException {
 		root = insertHelper(root, interval);
 	}
 	
+	 /**
+	 * This method helper call a recursive helper function with root node.
+	 * Traverse the tree using the binary search algorithm. Then we use the 
+	 * comparator from Interval and create a new IntervalNode to store the 
+	 * new interval when we reach the end of the tree.
+	 *
+	 * @param node the interval node that is currently being checked.
+	 * @param interval the interval (item) to insert in the tree.
+	 * @throws IllegalArgumentException if interval is null or is found 
+	 * to be a duplicate of an existing interval in this tree.            
+	 */
 	private IntervalNode<T> insertHelper(IntervalNode<T> node, 
 					     IntervalADT<T> interval) throws IllegalArgumentException {
 		if (node == null) {
