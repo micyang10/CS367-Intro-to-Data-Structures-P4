@@ -241,11 +241,22 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		}
 	}
 
+	/**
+	 * Return the height of the interval tree at the root of the tree. 
+	 * 
+	 * @return the height of the interval tree
+	 */
 	@Override
 	public int getHeight() {
 		return getHeightHelper(root);
-	}
+	} // end of getHeight() method
 	
+	/**
+	 * Recursive helper function that returns the height of a given node, 
+	 * incrementing a count of each level that is traversed.
+	 * 
+	 * @return the height of the interval tree
+	 */
 	private int getHeightHelper(IntervalNode<T> node) {
 		if (node == null) {
 	        	return 0;
@@ -258,7 +269,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		else {
 			return 1 + rightNodeHeight;
 		}
-	}
+	} // end of getHeightHelper(IntervalNode<T> node) method
 
 	/**
 	 * Returns true if the tree contains an exact match for the start and end 
