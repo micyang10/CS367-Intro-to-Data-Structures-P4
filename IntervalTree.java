@@ -231,7 +231,15 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		list = findOverlappingHelper(node.getRightNode(), interval, list);
 		return list;
 	}
-
+	
+	/**
+	 * Search and return a list of all intervals containing a given point. 
+	 * This method may return an empty list. 
+	 * 
+	 * @throws IllegalArgumentException if point is null
+	 * @param point input point to search for.
+	 * @return List of intervals containing the point.
+	 */
 	@Override
 	public List<IntervalADT<T>> searchPoint(T point) {
 		if (point == null) {
@@ -239,8 +247,17 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		}
 		ArrayList<IntervalADT<T>> list = new ArrayList<IntervalADT<T>>();
 		return searchPointHelper(root, point, list);
-	}
+	} // end of searchPoint(T point) method
 
+	/**
+	 * Recursive helper method that traverses IntervalTree, checking whether
+	 * each node contains the date point, and adding them to a list.
+	 * 
+	 * @param node the node to start search.
+	 * @param point input point to search for.
+	 * @return List of intervals containing the point.
+	 * @return List of intervals containing the point.
+	 */
 	private List<IntervalADT<T>> searchPointHelper(IntervalNode<T> node, 
 				       T point, List<IntervalADT<T>> list) {
 		if (node == null) {
@@ -253,13 +270,27 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		list = searchPointHelper(node.getLeftNode(), point, list);
 		list = searchPointHelper(node.getRightNode(), point, list);
 		return list;
-	}
+	} // end of searchPointHelper(IntervalNode<T> node, 
+	  // T point, List<IntervalADT<T>> list) method
 
+	/**
+	 * Returns the size of the interval tree. The size is the total number of
+	 * nodes present in the tree. 
+	 * 
+	 * @return int number of nodes in the tree.
+	 */
 	@Override
 	public int getSize() {
 		 return getSizeHelper(root);
-	}
+	} // end of getSize() method
 	
+	/**
+	 * Recursive helper function that completely traverses the tree, 
+	 * incrementing a count of the number of nodes in the tree.
+	 * 
+	 * @param node the node of which to begin counting
+	 * @return int number of nodes in the tree.
+	 */
 	private int getSizeHelper(IntervalNode<T> node) {
 		if (node == null) {
 			return 0;
@@ -268,13 +299,24 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			return (getSizeHelper(node.getLeftNode()) 
 				+ 1 + getSizeHelper(node.getRightNode()));
 		}
-	}
+	} // end of getSizeHelper(IntervalNode<T> node)
 
+	/**
+	 * Return the height of the interval tree at the root of the tree. 
+	 * 
+	 * @return the height of the interval tree
+	 */
 	@Override
 	public int getHeight() {
 		return getHeightHelper(root);
-	}
+	} // end of getHeight() method
 	
+	/**
+	 * Recursive helper function that returns the height of a given node, 
+	 * incrementing a count of each level that is traversed.
+	 * 
+	 * @return the height of the interval tree
+	 */
 	private int getHeightHelper(IntervalNode<T> node) {
 		if (node == null) {
 	        	return 0;
@@ -287,16 +329,34 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		else {
 			return 1 + rightNodeHeight;
 		}
-	}
+	} // end of getHeightHelper(IntervalNode<T> node) method
 
+	/**
+	 * Returns true if the tree contains an exact match for the start and end 
+	 * of the given interval.
+	 * The label is not considered for this operation.
+	 * 
+	 * @param interval the target interval for which to search the tree for. 
+	 * @return boolean representing if the tree contains the interval.
+	 */
 	@Override
 	public boolean contains(IntervalADT<T> interval) {
 		if (interval == null) {
 			throw new IllegalArgumentException();
 		}
 		return containsHelper(interval, root);
-	}
+	} // end of contains(IntervalADT<T> interval) method
 
+	/**
+	 * Recursive helper function that traverses nodes in the tree to find if the
+	 * tree contains the given Interval
+	 *  
+	 * <p>Tip: Define and call a recursive helper function to call with root node 
+	 * and the target interval.</p>
+	 * 
+	 * @param interval target interval for which to search the tree for. 
+	 * @return node the Interval to search for in the tree.
+	 */
 	private boolean containsHelper(IntervalADT<T> interval, IntervalNode<T> node) {
 		if (root == null) {
 			return false;
@@ -310,14 +370,18 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		else {
 			return containsHelper(interval, node.getLeftNode());
 		}
-	}
+	} // end of containsHelper(IntervalADT<T> interval, IntervalNode<T> node) method
 
+	/**
+	 * Prints String height and size information of the IntervalTree in the
+	 * proper format
+	 */
 	@Override
 	public void printStats() {
 		System.out.println("-----------------------------------------");
 		System.out.println("Height: " + getHeight());
 		System.out.println("Size: " + getSize());
 		System.out.println("-----------------------------------------");
-	}
+	} // end of printStats() method
 
-}
+} // end of IntervalTree class
