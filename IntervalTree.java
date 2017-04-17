@@ -40,6 +40,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	
 	/**
 	* Constructs a new interval tree instance. It initializes the root.
+	* 
 	* @param root: root of the tree
 	*/
 	public IntervalTree(IntervalNode<T> root) {
@@ -56,7 +57,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		return this.root;
 	}
 	
-        /**
+   /**
 	* Inserts an Interval into the tree.
 	* 
 	* @param interval the interval (item) to insert in the tree.
@@ -78,7 +79,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	 * @param node the interval node that is currently being checked.
 	 * @param interval the interval (item) to insert in the tree.
 	 * @throws IllegalArgumentException if interval is null or is found 
-	 * to be a duplicate of an existing interval in this tree.  
+	 * 			to be a duplicate of an existing interval in this tree.  
 	 * @return IntervalNode that is being inserted
 	 */
 	private IntervalNode<T> insertHelper(IntervalNode<T> node, 
@@ -171,7 +172,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	 * interval's deletion. maxEnd is recalculated for any node based on the 
 	 * maxEnd of its child nodes.
 	 *
-	 * @param nodeRecalc node tested for upding maxEnd
+	 * @param nodeRecalc node tested for updating maxEnd
 	 * @return new maxEnd
 	 */
 	private T updateMaxEnd(IntervalNode<T> nodeRecalc) {
