@@ -1,4 +1,23 @@
+/////////////////////////////////////////////////////////////////////////////
+// Semester:         CS367 Spring 2017 
+// PROJECT:          Program 4
+// FILE:             Interval.java
+//
+// TEAM:    Team 35 Java Badgers - P4
+// Authors: Michael Yang, Kendra Raczek
+// Author1: Michael Yang, yang363@wisc.edu, yang363, LEC 001
+// Author2: Kendra Raczek, raczek@wisc.edu, raczek, LEC 001
+//
+//////////////////////////// 80 columns wide //////////////////////////////////
 
+/**
+ * An implementation of the IntervalADT interface. This implementation 
+ * can represent targets. See IntervalADT.java for a description 
+ * of each method. 
+ * <p>Bugs: None that we are aware of
+ *
+ * @author Michael Yang, Kendra Raczek
+ */
 public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
 
     T start;
