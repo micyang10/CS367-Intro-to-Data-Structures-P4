@@ -167,8 +167,9 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	}
 	
 	/** 
-	 * This method updates maxEnd of some interval nodes, as a result of an interval's
-	 * deletion. maxEnd is recalculated for any node based on the maxEnd of its child nodes.
+	 * This method updates maxEnd of some interval nodes, as a result of an 
+	 * interval's deletion. maxEnd is recalculated for any node based on the 
+	 * maxEnd of its child nodes.
 	 *
 	 * @param nodeRecalc node tested for upding maxEnd
 	 * @return new maxEnd
@@ -226,15 +227,16 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	}
 
 	/**
-	 * Recursive helper method  that builds a list of Intervals that overlap the given Interval.
+	 * Recursive helper method  that builds a list of Intervals that overlap 
+	 * the given Interval.
 	 * 
 	 * @param node the IntervalNode to start search
 	 * @param interval the interval to search for overlapping
 	 * @param list of intervals that overlap with the input interval
 	 * @return list of intervals that overlap with the input interval
 	 */
-	private List<IntervalADT<T>> findOverlappingHelper(IntervalNode<T> node, IntervalADT<T> interval, 
-					   List<IntervalADT<T>> list) {
+	private List<IntervalADT<T>> findOverlappingHelper(IntervalNode<T> node, 
+			IntervalADT<T> interval, List<IntervalADT<T>> list) {
 		if (node == null) {
 			return list;
 		}
@@ -363,8 +365,8 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 	/**
 	 * Recursive helper function that traverses nodes in the tree to find if the
-	 * tree contains the given Interval. It uses a recursive helper function to call with root node 
-	 * and the target interval.
+	 * tree contains the given Interval. It uses a recursive helper function to
+	 * call with root node and the target interval.
 	 * 
 	 * @param interval target interval for which to search the tree for. 
 	 * @return node the Interval to search for in the tree.
