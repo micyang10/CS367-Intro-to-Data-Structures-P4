@@ -219,6 +219,15 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		return findOverlappingHelper(root, interval, list);
 	}
 
+	/**
+	 * Recursive helper method  that builds a list of Intervals that overlap the given Interval.
+	 * 
+	 * @param node the IntervalNode to start search
+	 * @param interval the interval to search for overlapping
+	 * @param list of intervals that overlap with the input interval
+	 * 
+	 * @return list of intervals that overlap with the input interval
+	 */
 	private List<IntervalADT<T>> findOverlappingHelper(IntervalNode<T> node, IntervalADT<T> interval, 
 					   List<IntervalADT<T>> list) {
 		if (node == null) {
