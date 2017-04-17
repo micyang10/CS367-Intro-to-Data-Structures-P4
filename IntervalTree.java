@@ -12,7 +12,6 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	public IntervalTree(IntervalNode<T> root) {
 		this.root = root;
 	}
-	
 
 	@Override
 	public IntervalNode<T> getRoot() {
@@ -123,7 +122,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			maxEndVal = nodeRecalc.getMaxEnd();
 		}
 		return maxEndVal;
-}
+	}
 
 	@Override
 	public List<IntervalADT<T>> findOverlapping(
@@ -131,27 +130,21 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (interval == null) {
 			throw new IllegalArgumentException();
 		}
-		List<IntervalADT<T>> list = new ArrayList<IntervalADT<T>>();
-		findOverlappingHelper(root, interval, list);
-		return list;
+		ArrayList<IntervalADT<T>> list = new ArrayList<IntervalADT<T>>();
+		return findOverlappingHelper(root, interval, list);
 	}
 
-	private void findOverlappingHelper(IntervalNode<T> node, IntervalADT<T> interval, 
-					   List<IntervalADT<T>> list) {
+	private List<IntervalADT<T>> findOverlappingHelper(IntervalNode<T> node, IntervalADT<T> interval, 
+					   ArrayList<IntervalADT<T>> list) {
 		if (node == null) {
-			return;
+			return list;
 		}
 		if (node.getInterval().overlaps(interval)) {
 			list.add(node.getInterval());
 		}
-		if (node.getLeftNode() != null && 
-		    node.getLeftNode().getMaxEnd().compareTo(interval.getStart()) >= 0) {
-			findOverlappingHelper(node.getLeftNode(), interval, list);
-		}
-		if (node.getRightNode() != null && 
-		    node.getRightNode().getMaxEnd().compareTo(interval.getStart()) >= 0) {
-			findOverlappingHelper(node.getRightNode(), interval, list);
-		}
+		list = findOverlappingHelper(node.getLeftNode(), interval, list);
+		list = findOVerlappingHelper(node.getRightNode(), interval, list);
+		return list;
 	}
 
 	@Override
@@ -159,30 +152,22 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (point == null) {
 			throw new IllegalArgumentException();
 		}
-		List<IntervalADT<T>> list = new ArrayList<IntervalADT<T>>();
-		searchPointHelper(root, point, list);
-		return list;
+		ArrayList<IntervalADT<T>> list = new ArrayList<IntervalADT<T>>();
+		return searchPointHelper(root, point, list);
 	}
 
 	private void searchPointHelper(IntervalNode<T> node, 
-				       T point, List<IntervalADT<T>> list) {
+				       T point, ArrayList<IntervalADT<T>> list) {
 		if (node == null) {
-			return;
+			return list;
 		}
-		else {
-			searchPointHelper(node.getLeftNode(), point, list);
-			if (node.getInterval().contains(point)) {
-				list.add(node.getInterval());
-			}
-			if (node.getLeftNode() != null && 
-			    node.getLeftNode().getMaxEnd().compareTo(point) > 0) {
-				searchPointHelper(node.getLeftNode(), point, list);
-			}
-			if (node.getRightNode() != null && 
-			    node.getRightNode().getMaxEnd().compareTo(point) > 0) {
-				searchPointHelper(node.getRightNode(), point, list);
-			}
+		Interval<T> interval = node.getInterval();
+		if (interval.contains(point)) {
+			list.add(interval);
 		}
+		list = searchPointHelper(node.getLeftNode(), point, list);
+		list = searchPointHelper(node.getRightNode(), point, list);
+		return list;
 	}
 
 	@Override
