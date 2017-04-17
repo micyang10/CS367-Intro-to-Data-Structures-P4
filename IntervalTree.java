@@ -12,6 +12,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	public IntervalTree(IntervalNode<T> root) {
 		this.root = root;
 	}
+	
 
 	@Override
 	public IntervalNode<T> getRoot() {
@@ -135,7 +136,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	}
 
 	private List<IntervalADT<T>> findOverlappingHelper(IntervalNode<T> node, IntervalADT<T> interval, 
-					   ArrayList<IntervalADT<T>> list) {
+					   List<IntervalADT<T>> list) {
 		if (node == null) {
 			return list;
 		}
@@ -143,7 +144,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			list.add(node.getInterval());
 		}
 		list = findOverlappingHelper(node.getLeftNode(), interval, list);
-		list = findOVerlappingHelper(node.getRightNode(), interval, list);
+		list = findOverlappingHelper(node.getRightNode(), interval, list);
 		return list;
 	}
 
@@ -156,12 +157,12 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		return searchPointHelper(root, point, list);
 	}
 
-	private void searchPointHelper(IntervalNode<T> node, 
-				       T point, ArrayList<IntervalADT<T>> list) {
+	private List<IntervalADT<T>> searchPointHelper(IntervalNode<T> node, 
+				       T point, List<IntervalADT<T>> list) {
 		if (node == null) {
 			return list;
 		}
-		Interval<T> interval = node.getInterval();
+		IntervalADT<T> interval = node.getInterval();
 		if (interval.contains(point)) {
 			list.add(interval);
 		}
