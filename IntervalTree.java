@@ -209,6 +209,12 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		return maxEndVal;
 	}
 
+	/**
+	 * Find and return a list of all intervals that overlap with the given interval. 
+	 *  
+	 * @param interval the interval to search for overlapping
+	 * @return list of intervals that overlap with the input interval.
+	 */
 	@Override
 	public List<IntervalADT<T>> findOverlapping(
 					IntervalADT<T> interval) {
@@ -225,7 +231,6 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	 * @param node the IntervalNode to start search
 	 * @param interval the interval to search for overlapping
 	 * @param list of intervals that overlap with the input interval
-	 * 
 	 * @return list of intervals that overlap with the input interval
 	 */
 	private List<IntervalADT<T>> findOverlappingHelper(IntervalNode<T> node, IntervalADT<T> interval, 
